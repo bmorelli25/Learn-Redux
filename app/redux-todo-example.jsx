@@ -21,13 +21,28 @@ var reducer = (state = stateDefault, action) => {
   };
 };
 
-var store = redux.createStore(reducer);
+var store = redux.createStore(reducer, redux.compose(
+  window.devToolsExtension ? window.devToolsExtension() : f => f
+));
 
-console.log('currentState: ', store.getState());
+// Subscribe to changes
+store.subscribe ( () => {
+  var state = store.getState();
+  document.getElementById('app').innerHTML = state.searchText;
+});
 
+// Dispatch Actions
 store.dispatch({
   type: 'CHANGE_SEARCH_TEXT',
   searchText: 'work'
 });
 
-console.log('searchText should be work: ', store.getState());
+store.dispatch({
+  type: 'CHANGE_SEARCH_TEXT',
+  searchText: 'school'
+});
+
+store.dispatch({
+  type: 'CHANGE_SEARCH_TEXT',
+  searchText: 'jump, jump'
+})
