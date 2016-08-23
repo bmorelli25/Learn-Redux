@@ -2,7 +2,15 @@ var redux = require('redux');
 
 console.log('Starting Redux Example');
 
-var reducer = (state = {name: 'Anonymous'}, action) => {
+var stateDefault = {
+  name: 'Anonymous',
+  hobbies: [],
+  movies: []
+};
+var nextHobbyId = 1;
+var nextMovieId = 1;
+
+var reducer = (state = stateDefault, action) => {
   //state = state || {name: 'Anonymous'}; // default state
 
   switch (action.type) {
@@ -10,6 +18,29 @@ var reducer = (state = {name: 'Anonymous'}, action) => {
       return {
         ...state,
         name: action.name
+      };
+    case 'ADD_HOBBY':
+      return {
+        ...state,
+        hobbies: [
+          ...state.hobbies,
+          {
+            id: nextHobbyId++,
+            hobby: action.hobby
+          }
+        ]
+      };
+    case 'ADD_MOVIE':
+      return {
+        ...state,
+        movies: [
+          ...state.movies,
+          {
+            id: nextMovieId++,
+            title: action.title,
+            genre: action.genre
+          }
+        ]
       };
     default:
       return state;
@@ -26,6 +57,8 @@ var unsubscribe = store.subscribe( () => {
 
   console.log('name is: ', state.name);
   document.getElementById('app').innerHTML = state.name;
+
+  console.log('new state: ', store.getState());
 });
 //unsubscribe();
 
@@ -38,6 +71,23 @@ store.dispatch({
 });
 
 store.dispatch({
+  type: 'ADD_HOBBY',
+  hobby: 'Running'
+});
+
+store.dispatch({
+  type: 'ADD_MOVIE',
+  title: 'Inside Man',
+  genre: 'Action'
+});
+
+store.dispatch({
   type: 'CHANGE_NAME',
   name: 'Second Name'
-})
+});
+
+store.dispatch({
+  type: 'ADD_MOVIE',
+  title: 'Titanic',
+  genre: 'Comedy'
+});
