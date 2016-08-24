@@ -13,6 +13,13 @@ var nameReducer = (state = 'Anonymous', action) => {
   };
 };
 
+var changeName =  (name) => {
+  return {
+    type: 'CHANGE_NAME',
+    name
+  };
+};
+
 // Hobbies reducer and action generators
 // --------------------
 var nextHobbyId = 1;
@@ -33,6 +40,20 @@ var hobbiesReducer = (state = [], action) => {
   };
 };
 
+var addHobby = (hobby) => {
+  return {
+    type: 'ADD_HOBBY',
+    hobby
+  };
+};
+
+var removeHobby = (id) => {
+  return {
+    type: 'REMOVE_HOBBY',
+    id
+  };
+};
+
 // Movies reducer and action generators
 // --------------------
 var nextMovieId = 1;
@@ -43,13 +64,29 @@ var moviesReducer = (state = [], action) => {
         ...state,
         {
           id: nextMovieId++,
-          movie: action.movie
+          title: action.title,
+          genre: action.genre
         }
       ];
     case 'REMOVE_MOVIE':
       return state.filter((movie) => movie.id !== action.id)
     default:
       return state;
+  };
+};
+
+var addMovie = (title, genre) => {
+  return {
+    type: 'ADD_MOVIE',
+    title,
+    genre
+  };
+};
+
+var removeMovie = (id) => {
+  return {
+    type: 'REMOVE_MOVIE',
+    id
   };
 };
 
@@ -77,44 +114,14 @@ var unsubscribe = store.subscribe( () => {
 var currentState = store.getState();
 console.log('currentState: ', currentState);
 
-store.dispatch({
-  type: 'CHANGE_NAME',
-  name: 'Brandon'
-});
+store.dispatch(changeName('Brandon'));
 
-store.dispatch({
-  type: 'ADD_HOBBY',
-  hobby: 'Running'
-});
+store.dispatch(addHobby('Running'));
+store.dispatch(addHobby('Walking'));
+store.dispatch(removeHobby(2));
 
-store.dispatch({
-  type: 'ADD_HOBBY',
-  hobby: 'Walking'
-});
+store.dispatch(changeName('Second Name'));
 
-store.dispatch({
-  type: 'REMOVE_HOBBY',
-  id: 2
-});
-
-store.dispatch({
-  type: 'ADD_MOVIE',
-  title: 'Inside Man',
-  genre: 'Action'
-});
-
-store.dispatch({
-  type: 'CHANGE_NAME',
-  name: 'Second Name'
-});
-
-store.dispatch({
-  type: 'ADD_MOVIE',
-  title: 'Titanic',
-  genre: 'Comedy'
-});
-
-store.dispatch({
-  type: 'REMOVE_MOVIE',
-  id: 1
-});
+store.dispatch(addMovie('Inside Man', 'Action'));
+store.dispatch(addMovie('Titanic', 'Comedy'));
+store.dispatch(removeMovie(1));
