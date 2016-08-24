@@ -2,14 +2,8 @@ var redux = require('redux');
 
 console.log('Starting Redux Example');
 
-var stateDefault = {
-  name: 'Anonymous',
-  hobbies: [],
-  movies: []
-};
-var nextHobbyId = 1;
-var nextMovieId = 1;
-
+// Name reducer and action generators
+// --------------------
 var nameReducer = (state = 'Anonymous', action) => {
   switch (action.type) {
     case 'CHANGE_NAME':
@@ -19,6 +13,9 @@ var nameReducer = (state = 'Anonymous', action) => {
   };
 };
 
+// Hobbies reducer and action generators
+// --------------------
+var nextHobbyId = 1;
 var hobbiesReducer = (state = [], action) => {
   switch (action.type) {
     case 'ADD_HOBBY':
@@ -36,6 +33,9 @@ var hobbiesReducer = (state = [], action) => {
   };
 };
 
+// Movies reducer and action generators
+// --------------------
+var nextMovieId = 1;
 var moviesReducer = (state = [], action) => {
   switch (action.type) {
     case 'ADD_MOVIE':
